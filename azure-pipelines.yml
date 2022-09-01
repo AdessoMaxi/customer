@@ -10,8 +10,16 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: gradle clean build
-  displayName: Build the jar
+- task: Gradle@3
+  inputs:
+    gradleWrapperFile: 'gradlew'
+    tasks: 'build'
+    publishJUnitResults: true
+    testResultsFiles: '**/TEST-*.xml'
+    javaHomeOption: 'JDKVersion'
+    sonarQubeRunAnalysis: false
+    spotBugsAnalysis: false
+
 
 - task: Docker@2
   inputs:
